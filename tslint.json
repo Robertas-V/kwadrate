@@ -1,0 +1,67 @@
+{
+    "rulesDirectory": ["codelyzer"],
+    "rules": {
+        "array-type": [true, "generic"],
+        "arrow-return-shorthand": true,
+        "callable-types": true,
+        "class-name": true,
+        "component-class-suffix": true,
+        "deprecation": {
+            "severity": "warn"
+        },
+        "directive-class-suffix": true,
+        "forin": true,
+        "import-blacklist": [true, "rxjs/Rx"],
+        "interface-over-type-literal": true,
+        "label-position": true,
+        "member-access": [true, "check-accessor", "check-parameter-property"],
+        "member-ordering": [
+            true,
+            {
+                "order": ["static-field", "instance-field", "static-method", "instance-method"]
+            }
+        ],
+        "no-arg": true,
+        "no-bitwise": true,
+        "no-console": true,
+        "no-construct": true,
+        "no-debugger": true,
+        "no-duplicate-super": true,
+        "no-empty": false,
+        "no-empty-interface": true,
+        "no-eval": true,
+        "no-inferrable-types": [true, "ignore-params"],
+        "no-input-rename": true,
+        "no-misused-new": true,
+        "no-non-null-assertion": true,
+        "no-output-on-prefix": true,
+        "no-output-rename": true,
+        "no-redundant-jsdoc": true,
+        "no-shadowed-variable": true,
+        "no-string-literal": false,
+        "no-string-throw": true,
+        "no-switch-case-fall-through": true,
+        "no-unnecessary-initializer": true,
+        "no-unused-expression": true,
+        "no-use-before-declare": true,
+        "no-var-keyword": true,
+        "object-literal-sort-keys": false,
+        "prefer-const": true,
+        "radix": true,
+        "triple-equals": [true, "allow-null-check"],
+        "typedef": [
+            true,
+            "arrow-call-signature",
+            "call-signature",
+            "parameter",
+            "property-declaration"
+        ],
+        "unified-signatures": true,
+        "use-host-property-decorator": true,
+        "use-input-property-decorator": true,
+        "use-life-cycle-interface": true,
+        "use-output-property-decorator": true,
+        "use-pipe-transform-interface": true,
+        "variable-name": [true, "allow-pascal-case", "ban-keywords", "check-format"]
+    }
+}
