@@ -16,21 +16,42 @@ Give examples
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
+1. Install [yarn](https://yarnpkg.com/en/docs/install#windows-stable).
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
+2. Open terminal window (cmd or powershell) and install angular cli:
 
 ```
-until finished
+yarn global add @angular/cli
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+3. Open new terminal window and setup yarn as a default package manager for angular:
+
+```
+ng config -g cli.packageManager yarn
+```
+
+if 3rd step doesn't work, you have to setup Environment variable for yarn:
+Go to My Computer -> right click on This PC -> Properties -> Advanced System Settings -> Environmental Variables -> At User Variables select Path and click Edit -> New -> %LOCALAPPDATA%\Yarn\bin
+
+Repeat 3rd step.
+
+4. Check if everything is installed.
+
+```
+ng --version
+```
+
+5. Install all packages related to this project.
+
+```
+yarn install
+```
+
+6. Start server with auto reload and open application in browser.
+
+```
+ng serve -o
+```
 
 ## Running the tests
 
