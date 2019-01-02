@@ -355,11 +355,6 @@ helpers =
     withNamespace appNamespace
 
 
-<<<<<<< HEAD
-1. Install [yarn](https://yarnpkg.com/en/docs/install#windows-stable).
-
-2. Open terminal window (cmd or powershell) and install angular cli:
-=======
 css =
     (stylesheet << namespace appNamespace)
     [ body
@@ -387,17 +382,10 @@ css =
         ]
     ]
 
->>>>>>> project-setup
 
 primaryAccentColor =
     hex "ccffaa"
 ```
-<<<<<<< HEAD
-yarn global add @angular/cli
-```
-
-3. Open new terminal window and setup yarn as a default package manager for angular:
-=======
 
 ### Step 4: Compiling the stylesheet
 
@@ -421,7 +409,6 @@ import './style.css';
 
 ```elm
 import Stylesheets exposing (helpers, CssIds(..), CssClasses(..))
->>>>>>> project-setup
 
 
 view model =
@@ -430,33 +417,6 @@ view model =
             [ text "Your Elm App is working!" ]
         ]
 ```
-<<<<<<< HEAD
-ng config -g cli.packageManager yarn
-```
-
-if 3rd step doesn't work, you have to setup Environment variable for yarn:
-Go to My Computer -> right click on This PC -> Properties -> Advanced System Settings -> Environmental Variables -> At User Variables select Path and click Edit -> New -> %LOCALAPPDATA%\Yarn\bin
-
-Repeat 3rd step.
-
-4. Check if everything is installed.
-
-```
-ng --version
-```
-
-5. Install all packages related to this project.
-
-```
-yarn install
-```
-
-6. Start server with auto reload and open application in browser.
-
-```
-ng serve -o
-```
-=======
 
 Please note that `Stylesheets.elm` exposes `helpers` record, which contains functions for creating id and class attributes.
 
@@ -468,7 +428,6 @@ You can also destructure `helpers` to make your view more readable:
 ```
 
 ## Adding a CSS Preprocessor (Sass, Less etc.)
->>>>>>> project-setup
 
 If you find CSS preprocessors valuable you can integrate one. In this walkthrough, we will be using Sass, but you can also use Less, or another alternative.
 
