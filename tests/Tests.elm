@@ -1,14 +1,12 @@
-module Tests exposing (..)
+module Tests exposing (suite)
 
+import Expect exposing (Expectation)
+import Fuzz exposing (Fuzzer, int, list, string)
 import Test exposing (..)
-import Expect
 
 
--- Check out http://package.elm-lang.org/packages/elm-community/elm-test/latest to learn more about testing in Elm!
-
-
-all : Test
-all =
+suite : Test
+suite =
     describe "A Test Suite"
         [ test "Addition" <|
             \_ ->
@@ -16,7 +14,4 @@ all =
         , test "String.left" <|
             \_ ->
                 Expect.equal "a" (String.left 1 "abcdefg")
-        , test "This test should fail" <|
-            \_ ->
-                Expect.fail "failed as expected!"
         ]
