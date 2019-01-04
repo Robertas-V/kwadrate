@@ -1,59 +1,77 @@
-module Example exposing (Model, exampleColumns, exampleHero, main, view)
+module Main exposing (main)
 
+import Bootstrap.CDN as CDN
+import Bootstrap.Grid as Grid
+import Bootstrap.Navbar as Navbar
 import Browser
-import Bulma.CDN exposing (..)
-import Bulma.Columns exposing (..)
-import Bulma.Elements exposing (..)
-import Bulma.Layout exposing (..)
-import Bulma.Modifiers exposing (..)
-import Html exposing (Html, main_, text)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 
 
-type alias Model =
-    {}
-
-
-main : Program () Model msg
 main =
-    Browser.sandbox
-        { init = {}
-        , view = view
-        , update = \msg -> \model -> model
+    Browser.element
+        { view = view
+        , update = update
+        , subscriptions = subscriptions
+        , init = \() -> init
         }
 
 
-view : Model -> Html msg
+view : Model -> Html Msg
 view model =
-    main_ []
-        [ stylesheet
-        , exampleHero
-        , exampleColumns
+    div []
+        [ CDN.stylesheet
+        , menu model
+        , mainContent
         ]
 
 
-exampleHero : Html msg
-exampleHero =
-    hero { heroModifiers | size = Medium, color = Primary }
-        []
-        [ heroBody []
-            [ container []
-                [ title H1 [] [ text "Hero Title" ]
-                , title H2 [] [ text "Hero Subtitle" ]
-                ]
+type alias Model =
+    { navState : Navbar.State
+    }
+
+
+init : ( Model, Cmd Msg )
+init =
+    let
+        ( navState, navCmd ) =
+            Navbar.initialState NavMsg
+    in
+    ( { navState = navState }, navCmd )
+
+
+type Msg
+    = NavMsg Navbar.State
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Navbar.subscriptions model.navState NavMsg
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        NavMsg state ->
+            ( { model | navState = state }
+            , Cmd.none
+            )
+
+
+menu : Model -> Html Msg
+menu model =
+    Navbar.config NavMsg
+        |> Navbar.withAnimation
+        |> Navbar.container
+        |> Navbar.brand [ href "#" ] [ text "Elm Bootstrap" ]
+        |> Navbar.items
+            [ Navbar.itemLink [ href "#" ] [ text "Item 1" ]
+            , Navbar.itemLink [ href "#" ] [ text "Item 2" ]
             ]
-        ]
+        |> Navbar.view model.navState
 
 
-exampleColumns : Html msg
-exampleColumns =
-    section NotSpaced
-        []
-        [ container []
-            [ columns columnsModifiers
-                []
-                [ column columnModifiers [] [ text "First Column" ]
-                , column columnModifiers [] [ text "Second Column" ]
-                , column columnModifiers [] [ text "Third Column" ]
-                ]
-            ]
-        ]
+mainContent : Html Msg
+mainContent =
+    Grid.container [] <|
+        [ h1 [] [ text "Content" ] ]
