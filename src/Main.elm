@@ -1,56 +1,59 @@
-module Main exposing (..)
+module Example exposing (Model, exampleColumns, exampleHero, main, view)
 
 import Browser
-import Html exposing (Html, text, div, h1, img)
-import Html.Attributes exposing (src)
-
-
----- MODEL ----
+import Bulma.CDN exposing (..)
+import Bulma.Columns exposing (..)
+import Bulma.Elements exposing (..)
+import Bulma.Layout exposing (..)
+import Bulma.Modifiers exposing (..)
+import Html exposing (Html, main_, text)
 
 
 type alias Model =
     {}
 
 
-init : ( Model, Cmd Msg )
-init =
-    ( {}, Cmd.none )
+main : Program () Model msg
+main =
+    Browser.sandbox
+        { init = {}
+        , view = view
+        , update = \msg -> \model -> model
+        }
 
 
-
----- UPDATE ----
-
-
-type Msg
-    = NoOp
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    ( model, Cmd.none )
-
-
-
----- VIEW ----
-
-
-view : Model -> Html Msg
+view : Model -> Html msg
 view model =
-    div []
-        [ img [ src "/logo.svg" ] []
-        , h1 [] [ text "Your Elm App is working!" ]
+    main_ []
+        [ stylesheet
+        , exampleHero
+        , exampleColumns
         ]
 
 
+exampleHero : Html msg
+exampleHero =
+    hero { heroModifiers | size = Medium, color = Primary }
+        []
+        [ heroBody []
+            [ container []
+                [ title H1 [] [ text "Hero Title" ]
+                , title H2 [] [ text "Hero Subtitle" ]
+                ]
+            ]
+        ]
 
----- PROGRAM ----
 
-
-main : Program () Model Msg
-main =
-    Browser.element
-        { view = view
-        , init = \_ -> init
-        , update = update
-        , subscriptions = always Sub.none
-        }
+exampleColumns : Html msg
+exampleColumns =
+    section NotSpaced
+        []
+        [ container []
+            [ columns columnsModifiers
+                []
+                [ column columnModifiers [] [ text "First Column" ]
+                , column columnModifiers [] [ text "Second Column" ]
+                , column columnModifiers [] [ text "Third Column" ]
+                ]
+            ]
+        ]
