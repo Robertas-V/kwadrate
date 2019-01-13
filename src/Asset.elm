@@ -31,7 +31,7 @@ error =
 
 loading : Image
 loading =
-    image "loading.jpg"
+    image "loading.svg"
 
 
 defaultAvatar : Image
