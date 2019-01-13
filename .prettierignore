@@ -1,4 +1,2 @@
-angular.json
-package.json
-package-lock.json
-yarn.lock
+elm.json
+elm-stuff/
