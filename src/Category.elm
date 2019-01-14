@@ -1,4 +1,4 @@
-module Category exposing (Category, decoder, encode, toHtml, toString, urlParser)
+module Category exposing (Category(..), decoder, encode, toHtml, toString, urlParser)
 
 import Html exposing (Html)
 import Json.Decode as Decode exposing (Decoder)

@@ -12,9 +12,11 @@ import Bootstrap.Navbar as Navbar
 import Bootstrap.Utilities.Spacing as Spacing
 import Browser exposing (UrlRequest)
 import Browser.Navigation as Navigation
+import Category exposing (Category, toString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
+import Loading
 import Route exposing (Route)
 import Url exposing (Url)
 import Url.Parser as UrlParser exposing ((</>), Parser, s, top)
@@ -29,7 +31,13 @@ type alias Model =
     , route : Route
     , navState : Navbar.State
     , modalVisibility : Modal.Visibility
+    , categories : List Category
     }
+
+
+dummyCategories : List Category
+dummyCategories =
+    [ Category.Category "potatoes", Category.Category "carrots", Category.Category "veggies" ]
 
 
 main : Program Flags Model Msg
@@ -51,7 +59,7 @@ init flags url key =
             Navbar.initialState NavMsg
 
         ( model, urlCmd ) =
-            urlUpdate url { navKey = key, navState = navState, route = Route.Home, modalVisibility = Modal.hidden }
+            urlUpdate url { navKey = key, navState = navState, route = Route.Home, modalVisibility = Modal.hidden, categories = dummyCategories }
     in
     ( model, Cmd.batch [ urlCmd, navCmd ] )
 
@@ -188,6 +196,8 @@ pageHome model =
                     ]
                 |> Card.view
             ]
+        , Grid.col []
+            (List.map (\a -> p [] [ text a ]) (List.map toString model.categories))
         ]
     ]
 
