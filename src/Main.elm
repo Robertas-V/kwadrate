@@ -177,7 +177,7 @@ pageHome model =
 
         toLiCategories : List (ListGroup.Item Msg)
         toLiCategories =
-            List.map toLi model.categories
+            model.categories |> List.map toLi
     in
     [ h1 [] [ text "Home" ]
     , Grid.row []
