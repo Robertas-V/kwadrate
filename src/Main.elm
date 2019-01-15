@@ -171,15 +171,13 @@ mainContent model =
 pageHome : Model -> List (Html Msg)
 pageHome model =
     let
-        toLi : String -> ListGroup.Item Msg
+        toLi : Category -> ListGroup.Item Msg
         toLi category =
-            ListGroup.li [] [ text category ]
+            ListGroup.li [] [ category |> toString |> text ]
 
         toLiCategories : List (ListGroup.Item Msg)
         toLiCategories =
-            model.categories
-                |> List.map toString
-                |> List.map toLi
+            List.map toLi model.categories
     in
     [ h1 [] [ text "Home" ]
     , Grid.row []
