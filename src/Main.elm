@@ -6,7 +6,7 @@ import Bootstrap.Card as Card
 import Bootstrap.Card.Block as Block
 import Bootstrap.Grid as Grid
 import Bootstrap.Grid.Col as Col
-import Bootstrap.ListGroup as Listgroup
+import Bootstrap.ListGroup as ListGroup
 import Bootstrap.Modal as Modal
 import Bootstrap.Navbar as Navbar
 import Bootstrap.Utilities.Spacing as Spacing
@@ -170,6 +170,17 @@ mainContent model =
 
 pageHome : Model -> List (Html Msg)
 pageHome model =
+    let
+        toLi : String -> ListGroup.Item Msg
+        toLi category =
+            ListGroup.li [] [ text category ]
+
+        toLiCategories : List (ListGroup.Item Msg)
+        toLiCategories =
+            model.categories
+                |> List.map toString
+                |> List.map toLi
+    in
     [ h1 [] [ text "Home" ]
     , Grid.row []
         [ Grid.col []
@@ -196,8 +207,7 @@ pageHome model =
                     ]
                 |> Card.view
             ]
-        , Grid.col []
-            (List.map (\a -> p [] [ text a ]) (List.map toString model.categories))
+        , Grid.col [] [ ListGroup.ul toLiCategories ]
         ]
     ]
 
@@ -218,10 +228,10 @@ pageGettingStarted model =
 pageModules : Model -> List (Html Msg)
 pageModules model =
     [ h1 [] [ text "Modules" ]
-    , Listgroup.ul
-        [ Listgroup.li [] [ text "Alert" ]
-        , Listgroup.li [] [ text "Badge" ]
-        , Listgroup.li [] [ text "Card" ]
+    , ListGroup.ul
+        [ ListGroup.li [] [ text "Alert" ]
+        , ListGroup.li [] [ text "Badge" ]
+        , ListGroup.li [] [ text "Card" ]
         ]
     ]
 
