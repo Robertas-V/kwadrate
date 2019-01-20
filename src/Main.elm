@@ -58,11 +58,6 @@ type alias Model =
 
 -- INIT
 
-init : Flags -> Url -> Navigation.Key -> ( Model, Cmd Msg )
-init flags url key =
-    let
-        ( navState, navCmd ) =
-            Navbar.initialState NavMsg
 
 init : Flags -> Url -> Navigation.Key -> ( Model, Cmd Msg )
 init flags url key =
@@ -206,13 +201,19 @@ mainContent model =
                 pageHome model
 
             Route.GettingStarted ->
-                pageGettingStarted model
+                Page.GettingStarted.view
 
             Route.Modules ->
-                pageModules model
+                Page.Modules.view
+
+            Route.CategoriesRoute ->
+                Page.NotFound.view
+
+            Route.CategoryRoute _ ->
+                Page.NotFound.view
 
             Route.NotFound ->
-                pageNotFound
+                Page.NotFound.view
 
 
 pageHome : Model -> List (Html Msg)
@@ -245,6 +246,7 @@ pageHome model =
             ]
         ]
     ]
+
 
 
 -- MAIN
