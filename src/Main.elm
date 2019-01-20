@@ -24,6 +24,7 @@ import Page.GettingStarted
 import Page.Home
 import Page.Modules
 import Page.NotFound
+import Page.Todos exposing (view)
 import Route exposing (Route)
 import Url exposing (Url)
 import Url.Parser as UrlParser exposing ((</>), Parser, s, top)
@@ -147,6 +148,7 @@ menu model =
             |> Navbar.items
                 [ Navbar.itemLink [ href "#getting-started" ] [ text "Getting started" ]
                 , Navbar.itemLink [ href "#modules" ] [ text "Modules" ]
+                , Navbar.itemLink [ href "#todos" ] [ text "Todos" ]
                 , Navbar.dropdown
                     { id = "navbar-dropdown-categories"
                     , toggle = Navbar.dropdownToggle [] [ text "Categories" ]
@@ -189,63 +191,11 @@ content model =
             Route.CategoryRoute _ ->
                 Page.Modules.view
 
-            Route.NotFound ->
-                Page.NotFound.view
-
-
-mainContent : Model -> Html Msg
-mainContent model =
-    Grid.containerFluid [ Spacing.mt5 ] <|
-        case model.route of
-            Route.Home ->
-                pageHome model
-
-            Route.GettingStarted ->
-                Page.GettingStarted.view
-
-            Route.Modules ->
-                Page.Modules.view
-
-            Route.CategoriesRoute ->
-                Page.NotFound.view
-
-            Route.CategoryRoute _ ->
-                Page.NotFound.view
+            Route.Todos ->
+                Page.Todos.view
 
             Route.NotFound ->
                 Page.NotFound.view
-
-
-pageHome : Model -> List (Html Msg)
-pageHome model =
-    [ h1 [] [ text "Home" ]
-    , Grid.row []
-        [ Grid.col []
-            [ Card.config [ Card.outlinePrimary ]
-                |> Card.headerH4 [] [ text "Getting started" ]
-                |> Card.block []
-                    [ Block.text [] [ text "Getting started is real easy. Just click the start button." ]
-                    , Block.custom <|
-                        Button.linkButton
-                            [ Button.primary, Button.attrs [ href "#getting-started" ] ]
-                            [ text "Start" ]
-                    ]
-                |> Card.view
-            ]
-        , Grid.col []
-            [ Card.config [ Card.outlineDanger ]
-                |> Card.headerH4 [] [ text "Modules" ]
-                |> Card.block []
-                    [ Block.text [] [ text "Check out the modules overview" ]
-                    , Block.custom <|
-                        Button.linkButton
-                            [ Button.primary, Button.attrs [ href "#modules" ] ]
-                            [ text "Module" ]
-                    ]
-                |> Card.view
-            ]
-        ]
-    ]
 
 
 
