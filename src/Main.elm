@@ -24,7 +24,7 @@ import Page.GettingStarted
 import Page.Home
 import Page.Modules
 import Page.NotFound
-import Page.Todos exposing (view)
+import Page.Todos exposing (Model, Msg, init, view)
 import Route exposing (Route)
 import Url exposing (Url)
 import Url.Parser as UrlParser exposing ((</>), Parser, s, top)
@@ -39,6 +39,7 @@ type Msg
     | UrlChange Url
     | ClickedLink UrlRequest
     | NavMsg Navbar.State
+    | TodoMsg Page.Todos.Msg
 
 
 type alias Flags =
@@ -53,6 +54,7 @@ type alias Model =
     { navKey : Navigation.Key
     , route : Route
     , navState : Navbar.State
+    , todoState : Page.Todos.Model
     }
 
 
@@ -66,8 +68,11 @@ init flags url key =
         ( navState, navCmd ) =
             Navbar.initialState NavMsg
 
+        ( todoState, todoCmd ) =
+            Page.Todos.init
+
         ( model, urlCmd ) =
-            urlUpdate url { navKey = key, navState = navState, route = Route.Home }
+            urlUpdate url { navKey = key, navState = navState, todoState = todoState, route = Route.Home }
     in
     ( model, Cmd.batch [ urlCmd, navCmd ] )
 
@@ -95,6 +100,13 @@ update msg model =
 
         NavMsg state ->
             ( { model | navState = state }, Cmd.none )
+
+        TodoMsg subMsg ->
+            let
+                ( updateTodoModel, todoCmd ) =
+                    Page.Todos.update subMsg model.todoState
+            in
+            ( { model | todoState = updateTodoModel }, Cmd.map TodoMsg todoCmd )
 
 
 urlUpdate : Url -> Model -> ( Model, Cmd Msg )
@@ -192,7 +204,7 @@ content model =
                 Page.Modules.view
 
             Route.Todos ->
-                Page.Todos.view
+                [ Html.map TodoMsg (Page.Todos.view model.todoState) ]
 
             Route.NotFound ->
                 Page.NotFound.view
