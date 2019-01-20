@@ -7,6 +7,8 @@ type Route
     = Home
     | GettingStarted
     | Modules
+    | CategoriesRoute
+    | CategoryRoute String
     | NotFound
 
 
@@ -16,4 +18,6 @@ parser =
         [ Parser.map Home Parser.top
         , Parser.map GettingStarted (s "getting-started")
         , Parser.map Modules (s "modules")
+        , Parser.map CategoriesRoute (s "categories")
+        , Parser.map CategoryRoute (s "categories" </> string)
         ]

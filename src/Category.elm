@@ -1,4 +1,4 @@
-module Category exposing (Category(..), decoder, encode, toHtml, toString, urlParser)
+module Category exposing (Category, decoder, encode, fromString, toHtml, toString, urlParser)
 
 import Html exposing (Html)
 import Json.Decode as Decode exposing (Decoder)
@@ -30,6 +30,11 @@ decoder =
 encode : Category -> Value
 encode (Category category) =
     Encode.string category
+
+
+fromString : String -> Category
+fromString category =
+    Category category
 
 
 toString : Category -> String

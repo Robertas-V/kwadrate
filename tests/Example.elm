@@ -7,4 +7,8 @@ import Test exposing (..)
 
 suite : Test
 suite =
-    todo "Implement our first test. See https://package.elm-lang.org/packages/elm-explorations/test/latest for how to do this!"
+    describe "Dummy tests"
+        [ test "should sum two numbers" <|
+            \_ ->
+                Expect.equal 2 (1 + 1)
+        ]
