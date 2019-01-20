@@ -1,6 +1,7 @@
 module Todo exposing (Todo, todoListDecoder)
 
-import Json.Decode exposing (Decoder, at, bool, int, list, map4, string)
+import Json.Decode as Decode exposing (Decoder, bool, int, list, string)
+import Json.Decode.Pipeline exposing (required)
 
 
 type alias Todo =
@@ -13,11 +14,11 @@ type alias Todo =
 
 todoDecoder : Decoder Todo
 todoDecoder =
-    map4 Todo
-        (at [ "id" ] int)
-        (at [ "userId" ] int)
-        (at [ "title" ] string)
-        (at [ "completed" ] bool)
+    Decode.succeed Todo
+        |> required "id" int
+        |> required "userId" int
+        |> required "title" string
+        |> required "completed" bool
 
 
 todoListDecoder : Decoder (List Todo)

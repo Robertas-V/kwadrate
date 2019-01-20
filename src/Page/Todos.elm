@@ -51,7 +51,7 @@ view =
             Decode.errorToString error |> text
 
         Ok todos ->
-            ul [] (todos |> List.map .title |> List.map toLi)
+            ul [] (todos |> List.map .id |> List.map String.fromInt |> List.map toLi)
     ]
 
 
