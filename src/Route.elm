@@ -9,6 +9,7 @@ type Route
     | Modules
     | CategoriesRoute
     | CategoryRoute String
+    | Todos
     | NotFound
 
 
@@ -20,4 +21,5 @@ parser =
         , Parser.map Modules (s "modules")
         , Parser.map CategoriesRoute (s "categories")
         , Parser.map CategoryRoute (s "categories" </> string)
+        , Parser.map Todos (s "todos")
         ]
