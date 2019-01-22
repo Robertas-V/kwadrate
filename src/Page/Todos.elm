@@ -76,15 +76,15 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update message model =
     case message of
         GetTodos ->
-            ( { model | loading = True, todos = [ { id = 1, userId = 2, title = "Beer", completed = False } ] }, Cmd.none )
+            ( { model | loading = True }, getTodos )
 
         TodosResult res ->
             case res of
                 Err _ ->
-                    ( { model | loading = False }, Cmd.none )
+                    ( { model | loading = False, todos = [] }, Cmd.none )
 
-                Ok _ ->
-                    ( { model | loading = False, todos = [ { id = 1, userId = 2, title = "Beer", completed = False } ] }, Cmd.none )
+                Ok todos ->
+                    ( { model | loading = False, todos = todos }, Cmd.none )
 
 
 
@@ -98,9 +98,11 @@ subscriptions model =
 
 
 -- HTTP
--- getTodos : Cmd Msg
--- getTodos =
---     Http.get
---         { url = "https://jsonplaceholder.typicode.com/todos"
---         , expect = Http.expectJson GotGif todoDecoder
---         }
+
+
+getTodos : Cmd Msg
+getTodos =
+    Http.get
+        { url = "https://jsonplaceholder.typicode.com/todos"
+        , expect = Http.expectJson TodosResult todoListDecoder
+        }
