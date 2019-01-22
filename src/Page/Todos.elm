@@ -40,6 +40,11 @@ init =
 
 
 
+--
+-- decodedTodos : Result Decode.Error (List Todo)
+-- decodedTodos =
+--     Decode.decodeString todoListDecoder data
+--
 -- VIEW
 
 
