@@ -15,11 +15,11 @@ import Bootstrap.Utilities.Size as Size
 import Bootstrap.Utilities.Spacing as Spacing
 import Browser exposing (UrlRequest)
 import Browser.Navigation as Navigation
-import Category exposing (Category, fromString, toString)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Loading
+import Page.Categories
 import Page.GettingStarted
 import Page.Home
 import Page.Modules
@@ -40,6 +40,7 @@ type Msg
     | ClickedLink UrlRequest
     | NavMsg Navbar.State
     | TodoMsg Page.Todos.Msg
+    | CategoryMsg Page.Categories.Msg
 
 
 type alias Flags =
@@ -55,6 +56,7 @@ type alias Model =
     , route : Route
     , navState : Navbar.State
     , todoState : Page.Todos.Model
+    , categoryState : Page.Categories.Model
     }
 
 
@@ -71,8 +73,11 @@ init flags url key =
         ( todoState, todoCmd ) =
             Page.Todos.init
 
+        ( categoryState, categoryCmd ) =
+            Page.Categories.init
+
         ( model, urlCmd ) =
-            urlUpdate url { navKey = key, navState = navState, todoState = todoState, route = Route.Home }
+            urlUpdate url { navKey = key, navState = navState, todoState = todoState, categoryState = categoryState, route = Route.Home }
     in
     ( model, Cmd.batch [ urlCmd, navCmd ] )
 
@@ -107,6 +112,13 @@ update msg model =
                     Page.Todos.update subMsg model.todoState
             in
             ( { model | todoState = updateTodoModel }, Cmd.map TodoMsg todoCmd )
+
+        CategoryMsg subMsg ->
+            let
+                ( updateTodoModel, todoCmd ) =
+                    Page.Categories.update subMsg model.categoryState
+            in
+            ( { model | categoryState = updateTodoModel }, Cmd.map CategoryMsg todoCmd )
 
 
 urlUpdate : Url -> Model -> ( Model, Cmd Msg )
@@ -198,7 +210,7 @@ content model =
                 Page.Modules.view
 
             Route.CategoriesRoute ->
-                Page.Modules.view
+                [ Html.map CategoryMsg (Page.Categories.view model.categoryState) ]
 
             Route.CategoryRoute _ ->
                 Page.Modules.view

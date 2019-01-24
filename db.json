@@ -1,0 +1,13 @@
+{
+    "categories": [
+        { "id": 1, "name": "Frames" },
+        { "id": 2, "name": "Flight controllers" },
+        { "id": 3, "name": "ESCs" },
+        { "id": 4, "name": "Motors" },
+        { "id": 5, "name": "Propellers" },
+        { "id": 6, "name": "FPV Cameras" },
+        { "id": 7, "name": "FPV Transmitters" },
+        { "id": 8, "name": "Antennas" },
+        { "id": 9, "name": "Receivers" }
+    ]
+}
