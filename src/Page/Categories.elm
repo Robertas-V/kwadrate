@@ -3,7 +3,7 @@ module Page.Categories exposing (Model, Msg(..), init, subscriptions, update, vi
 import Api.Endpoint as Endpoint
 import Category exposing (Category, categoryListDecoder)
 import Debug
-import Html exposing (Html, button, div, h1, li, pre, text, ul)
+import Html exposing (Html, br, button, div, h1, li, pre, text, ul)
 import Html.Events exposing (onClick)
 import Http
 import Json.Decode as Decode
@@ -47,6 +47,7 @@ view model =
     in
     div []
         [ button [ onClick GetCategories ] [ text "Get Categories" ]
+        , br [] []
         , case model of
             NoOp ->
                 text ""
