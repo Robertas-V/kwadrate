@@ -1,5 +1,6 @@
 module Page.Categories exposing (Model, Msg(..), init, subscriptions, update, view)
 
+import Api
 import Api.Endpoint as Endpoint
 import Category exposing (Category, categoryListDecoder)
 import Debug
@@ -97,7 +98,4 @@ subscriptions model =
 
 getCategories : Cmd Msg
 getCategories =
-    Http.get
-        { url = "http://localhost:3000/categories"
-        , expect = Http.expectJson CategoriesResult categoryListDecoder
-        }
+    Api.get Endpoint.categories CategoriesResult categoryListDecoder
