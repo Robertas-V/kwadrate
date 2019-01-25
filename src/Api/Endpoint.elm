@@ -9,7 +9,7 @@ import Url.Builder exposing (QueryParameter)
 request :
     { method : String
     , headers : List Header
-    , url : String
+    , url : Endpoint
     , body : Body
     , expect : Expect msg
     , timeout : Maybe Float
@@ -20,7 +20,7 @@ request config =
     Http.request
         { method = config.method
         , headers = config.headers
-        , url = config.url
+        , url = unwrap config.url
         , body = config.body
         , expect = config.expect
         , timeout = config.timeout
