@@ -6,11 +6,11 @@ import Json.Decode as Decode exposing (Decoder, Value, decodeString, field, stri
 
 
 get : Endpoint -> (Result Http.Error a -> msg) -> Decoder a -> Cmd msg
-get url msg decoder =
+get endpoint msg decoder =
     Endpoint.request
         { method = "GET"
         , headers = []
-        , url = url
+        , endpoint = endpoint
         , body = Http.emptyBody
         , expect = Http.expectJson msg decoder
         , timeout = Nothing
