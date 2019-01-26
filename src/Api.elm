@@ -36,3 +36,14 @@ get endpoint msg decoder =
 --         , timeout = Nothing
 --         , tracker = Nothing
 --         }
+-- LOCAL STORAGE KEYS
+
+
+cacheStorageKey : String
+cacheStorageKey =
+    "cache"
+
+
+credStorageKey : String
+credStorageKey =
+    "cred"
