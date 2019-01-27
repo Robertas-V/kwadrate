@@ -133,8 +133,7 @@ urlUpdate url model =
 
 decode : Url -> Maybe Route
 decode url =
-    { url | path = Maybe.withDefault "" url.fragment, fragment = Nothing }
-        |> UrlParser.parse Route.parser
+    UrlParser.parse Route.parser url
 
 
 
@@ -168,17 +167,18 @@ menu model =
             |> Navbar.withAnimation
             |> Navbar.collapseMedium
             |> Navbar.fixTop
-            |> Navbar.brand [ href "#" ] [ text "Elm Bootstrap" ]
+            |> Navbar.brand [ href "/" ] [ text "Elm Bootstrap" ]
             |> Navbar.items
-                [ Navbar.itemLink [ href "#getting-started" ] [ text "Getting started" ]
-                , Navbar.itemLink [ href "#modules" ] [ text "Modules" ]
-                , Navbar.itemLink [ href "#todos" ] [ text "Todos" ]
+                [ Navbar.itemLink [ href "getting-started" ] [ text "Getting started" ]
+                , Navbar.itemLink [ href "modules" ] [ text "Modules" ]
+                , Navbar.itemLink [ href "todos" ] [ text "Todos" ]
+                , Navbar.itemLink [ href "potat" ] [ model.route |> Route.toString |> text ]
                 , Navbar.dropdown
                     { id = "navbar-dropdown-categories"
                     , toggle = Navbar.dropdownToggle [] [ text "Categories" ]
                     , items =
                         [ Navbar.dropdownHeader [ text "Categories" ]
-                        , Navbar.dropdownItem [ href "#" ] [ text "Potato" ]
+                        , Navbar.dropdownItem [ href "/" ] [ text "Potato" ]
                         ]
                     }
                 ]

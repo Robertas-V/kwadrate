@@ -1,0 +1,22 @@
+{
+  "name": "kwadrate",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel index.html"
+  },
+  "repository": "git@github.com:Robertas-V/kwadrate.git",
+  "bugs": {
+    "url": "https://github.com/Robertas-V/kwadrate/issues"
+  },
+  "author": "Robertas Višniakovas",
+  "contributors": [
+    "Evaldas Buinauskas <buinauskas.evaldas@gmail.com> (https://github.com/buinauskas)"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "elm-hot": "^1.0.1",
+    "node-elm-compiler": "^5.0.1",
+    "parcel-bundler": "^1.11.0"
+  }
+}

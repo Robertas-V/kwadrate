@@ -1,6 +1,6 @@
-module Route exposing (Route(..), parser)
+module Route exposing (Route(..), parser, toString)
 
-import Url.Parser as Parser exposing (..)
+import Url.Parser exposing ((</>), Parser, map, oneOf, s, string, top)
 
 
 type Route
@@ -15,11 +15,20 @@ type Route
 
 parser : Parser (Route -> a) a
 parser =
-    Parser.oneOf
-        [ Parser.map Home Parser.top
-        , Parser.map GettingStarted (s "getting-started")
-        , Parser.map Modules (s "modules")
-        , Parser.map CategoriesRoute (s "categories")
-        , Parser.map CategoryRoute (s "categories" </> string)
-        , Parser.map Todos (s "todos")
+    oneOf
+        [ map Home top
+        , map GettingStarted (s "getting-started")
+        , map Modules (s "modules")
+        , map CategoriesRoute (s "categories")
+        , map CategoryRoute (s "categories" </> string)
+        , map Todos (s "todos")
         ]
+
+
+toString : Route -> String
+toString route =
+    if route == Home then
+        "home"
+
+    else
+        "dno broh"

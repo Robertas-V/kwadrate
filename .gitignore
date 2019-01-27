@@ -1,5 +1,6 @@
 # Distribution
 build/
+dist/
 
 # elm-package generated files
 elm-stuff
@@ -13,8 +14,19 @@ node_modules
 # Desktop Services Store on macOS
 .DS_Store
 
+# Visual Studio Code files
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Package manager files
+package-lock.json
+yarn.lock
+
+# Parcel
+.cache/
+
+# Log files
+*.log
