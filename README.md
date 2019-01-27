@@ -6,27 +6,61 @@ This project is going to help drone pilots to assemble kwads with the better qua
 
 This project assumes Elm is installed on your machine, if not - please follow [official steps](https://guide.elm-lang.org/install.html).
 
+## Code base
+
+### Engineering standards
+
+#### Style guide
+
+This project follows official [elm-format](https://github.com/avh4/elm-format) style guide, using [elm-analyse](https://stil4m.github.io/elm-analyse/) as the code analyzer.
+
 ## Getting Started
 
 ## Development
 
-1. Run the following command in project folder
+0. Install Elm following [official guide](https://guide.elm-lang.org/install.html)
+
+1. Instal [Parcel](https://parceljs.org/) dependencies
+
+For NPM users
 
 ```
-elm reactor
+npm install
 ```
 
-2. Navigate to http://localhost:8000/src/Main.elm in your browser of choice
+For Yarn users
+
+```
+yarn install
+```
+
+2. Start development server
+
+For NPM users
+
+```
+npm run dev
+```
+
+For Yarn users
+
+```
+yarn dev
+```
+
+3. Navigate to http://localhost:1234 using your favorite browser
 
 ## Running the tests
 
 1. Install `elm-test`
 
+For NPM users
+
 ```
 npm i -g elm-test
 ```
 
-Or if you're using Yarn:
+For Yarn users
 
 ```
 yarn global add elm-test
@@ -62,17 +96,18 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-- [Elm](https://elm-lang.org/) - A delightful language for reliable web apps
+-   [Parcel](https://parceljs.org/) - Blazing fast, zero configuration web application bundler
+-   [Elm](https://elm-lang.org/) - A delightful language for reliable web apps
 
 ## Authors
 
-- **Robertas V** - _Initial work_ - [Profile](https://github.com/Robertas-V)
-- **Evaldas B** - _Initial work_ - [Profile](https://github.com/buinauskas)
+-   **Robertas V** - _Initial work_ - [Profile](https://github.com/Robertas-V)
+-   **Evaldas B** - _Initial work_ - [Profile](https://github.com/buinauskas)
 
 See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## Acknowledgments
 
-- Hat tip to anyone whose code was used
-- Inspiration
-- etc
+-   Hat tip to anyone whose code was used
+-   Inspiration
+-   etc

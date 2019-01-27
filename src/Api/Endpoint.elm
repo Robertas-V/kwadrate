@@ -1,4 +1,4 @@
-module Api.Endpoint exposing (Endpoint, categories)
+module Api.Endpoint exposing (Endpoint, categories, request)
 
 import Http exposing (Body, Expect, Header, request)
 import Url.Builder exposing (QueryParameter)
@@ -9,7 +9,7 @@ import Url.Builder exposing (QueryParameter)
 request :
     { method : String
     , headers : List Header
-    , url : String
+    , endpoint : Endpoint
     , body : Body
     , expect : Expect msg
     , timeout : Maybe Float
@@ -20,7 +20,7 @@ request config =
     Http.request
         { method = config.method
         , headers = config.headers
-        , url = config.url
+        , url = unwrap config.endpoint
         , body = config.body
         , expect = config.expect
         , timeout = config.timeout
@@ -51,7 +51,7 @@ url paths queryParams =
     -- NOTE: Url.Builder takes care of percent-encoding special URL characters.
     -- See https://package.elm-lang.org/packages/elm/url/latest/Url#percentEncode
     Url.Builder.crossOrigin "http://localhost:3000"
-        ("api" :: paths)
+        paths
         queryParams
         |> Endpoint
 
