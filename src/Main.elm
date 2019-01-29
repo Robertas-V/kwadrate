@@ -172,7 +172,6 @@ menu model =
                 [ Navbar.itemLink [ href "getting-started" ] [ text "Getting started" ]
                 , Navbar.itemLink [ href "modules" ] [ text "Modules" ]
                 , Navbar.itemLink [ href "todos" ] [ text "Todos" ]
-                , Navbar.itemLink [ href "potat" ] [ model.route |> Route.toString |> text ]
                 , Navbar.dropdown
                     { id = "navbar-dropdown-categories"
                     , toggle = Navbar.dropdownToggle [] [ text "Categories" ]

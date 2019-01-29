@@ -1,4 +1,4 @@
-module Route exposing (Route(..), parser, toString)
+module Route exposing (Route(..), parser)
 
 import Url.Parser exposing ((</>), Parser, map, oneOf, s, string, top)
 
@@ -23,12 +23,3 @@ parser =
         , map CategoryRoute (s "categories" </> string)
         , map Todos (s "todos")
         ]
-
-
-toString : Route -> String
-toString route =
-    if route == Home then
-        "home"
-
-    else
-        "dno broh"
