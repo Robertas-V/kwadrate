@@ -1,23 +1,15 @@
 module Main exposing (main)
 
-import Bootstrap.Button as Button
-import Bootstrap.CDN as CDN
-import Bootstrap.Card as Card
-import Bootstrap.Card.Block as Block
-import Bootstrap.Form as Form
-import Bootstrap.Form.Input as Input
-import Bootstrap.Form.InputGroup as InputGroup
-import Bootstrap.Grid as Grid
-import Bootstrap.Grid.Col as Col
-import Bootstrap.ListGroup as ListGroup
 import Bootstrap.Navbar as Navbar
-import Bootstrap.Utilities.Size as Size
-import Bootstrap.Utilities.Spacing as Spacing
 import Browser exposing (UrlRequest)
 import Browser.Navigation as Navigation
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (onClick)
+import Element exposing (Element, alignBottom, alignRight, centerY, column, el, fill, fillPortion, height, layout, mouseOver, none, padding, paddingXY, paragraph, px, rgb255, rgba, row, scrollbarY, spacing, spacingXY, text, width)
+import Element.Background as Background
+import Element.Border as Border
+import Element.Font as Font
+import Element.Input as Input
+import Element.Region as Region
+import Html exposing (Html)
 import Loading
 import Page.Categories
 import Page.GettingStarted
@@ -45,6 +37,13 @@ type Msg
 
 type alias Flags =
     {}
+
+
+type alias Message =
+    { author : String
+    , time : String
+    , text : String
+    }
 
 
 
@@ -153,75 +152,193 @@ view : Model -> Browser.Document Msg
 view model =
     { title = "KwadRate"
     , body =
-        [ CDN.stylesheet
-        , menu model
-        , content model
+        [ content model
         ]
     }
 
 
-menu : Model -> Html Msg
-menu model =
-    Grid.containerFluid []
-        [ Navbar.config NavMsg
-            |> Navbar.withAnimation
-            |> Navbar.collapseMedium
-            |> Navbar.fixTop
-            |> Navbar.brand [ href "/" ] [ text "Elm Bootstrap" ]
-            |> Navbar.items
-                [ Navbar.itemLink [ href "getting-started" ] [ text "Getting started" ]
-                , Navbar.itemLink [ href "modules" ] [ text "Modules" ]
-                , Navbar.itemLink [ href "todos" ] [ text "Todos" ]
-                , Navbar.dropdown
-                    { id = "navbar-dropdown-categories"
-                    , toggle = Navbar.dropdownToggle [] [ text "Categories" ]
-                    , items =
-                        [ Navbar.dropdownHeader [ text "Categories" ]
-                        , Navbar.dropdownItem [ href "/" ] [ text "Potato" ]
-                        ]
+type alias Person =
+    { firstName : String
+    , lastName : String
+    }
+
+
+persons : List Person
+persons =
+    [ { firstName = "David"
+      , lastName = "Bowie"
+      }
+    , { firstName = "Florence"
+      , lastName = "Welch"
+      }
+    ]
+
+
+navigation : Model -> Element Msg
+navigation model =
+    Element.row [ Region.navigation ]
+        [-- ..your navigation links
+        ]
+
+
+channelPanel : List String -> String -> Element Msg
+channelPanel channels activeChannel =
+    let
+        activeChannelsAttributes =
+            [ Background.color <| rgb255 117 179 201, Font.bold ]
+
+        channelAttributes =
+            [ paddingXY 15 5, width fill ]
+
+        channel channelName =
+            el
+                (if channelName == activeChannel then
+                    activeChannelsAttributes ++ channelAttributes
+
+                 else
+                    channelAttributes
+                )
+            <|
+                text ("#" ++ channelName)
+    in
+    column
+        [ height fill
+        , width <| fillPortion 1
+        , paddingXY 0 10
+        , Background.color <| rgb255 92 99 118
+        , Font.color <| rgb255 255 255 255
+        ]
+    <|
+        List.map channel channels
+
+
+chatPanel : String -> List Message -> Element Msg
+chatPanel channel messages =
+    let
+        header =
+            row
+                [ width fill
+                , paddingXY 20 5
+                , Border.widthEach { bottom = 1, left = 0, right = 0, top = 0 }
+                , Border.color <| rgb255 200 200 200
+                ]
+                [ el [] <| text ("#" ++ channel)
+                , Input.button
+                    [ padding 5
+                    , alignRight
+                    , Border.width 1
+                    , Border.rounded 3
+                    , Border.color <| rgb255 200 200 200
+                    ]
+                    { onPress = Nothing
+                    , label = text "Search"
                     }
                 ]
-            |> Navbar.customItems
-                [ Navbar.formItem []
-                    [ InputGroup.config
-                        (InputGroup.text [ Input.placeholder "Search for" ])
-                        |> InputGroup.small
-                        |> InputGroup.successors
-                            [ InputGroup.button [ Button.secondary ] [ text "GO" ] ]
-                        |> InputGroup.view
-                    ]
+
+        messageEntry message =
+            column [ width fill, spacingXY 0 5 ]
+                [ row [ spacingXY 10 0 ]
+                    [ el [ Font.bold ] <| text message.author, text message.time ]
+                , paragraph [] [ text message.text ]
                 ]
-            |> Navbar.view model.navState
-        ]
+
+        messagePanel =
+            column [ padding 10, spacingXY 0 10, scrollbarY ] <| List.map messageEntry messages
+
+        footer =
+            el [ alignBottom, padding 20, width fill ] <|
+                row
+                    [ spacingXY 20 0
+                    , width fill
+                    , Border.width 2
+                    , Border.rounded 4
+                    , Border.color <| rgb255 200 200 200
+                    ]
+                    [ el
+                        [ padding 5
+                        , Border.widthEach { bottom = 2, left = 0, right = 0, top = 0 }
+                        , Border.color <| rgb255 200 200 200
+                        , mouseOver [ Background.color <| rgb255 86 182 139 ]
+                        ]
+                      <|
+                        text "+"
+                    , el [ Background.color <| rgb255 255 255 255 ] none
+                    ]
+    in
+    column [ height fill, width <| fillPortion 5 ]
+        [ header, messagePanel, footer ]
 
 
 content : Model -> Html Msg
 content model =
-    Grid.containerFluid [ Spacing.mt5 ] <|
-        case model.route of
-            Route.Home ->
-                Page.Home.view
-
-            Route.GettingStarted ->
-                Page.GettingStarted.view
-
-            Route.Modules ->
-                Page.Modules.view
-
-            Route.CategoriesRoute ->
-                [ Html.map CategoryMsg (Page.Categories.view model.categoryState) ]
-
-            Route.CategoryRoute _ ->
-                Page.Modules.view
-
-            Route.Todos ->
-                [ Html.map TodoMsg (Page.Todos.view model.todoState) ]
-
-            Route.NotFound ->
-                Page.NotFound.view
+    layout [] <|
+        row [ height fill, width fill ]
+            [ channelPanel [ "potato", "elm", "lol" ] "lol"
+            , chatPanel "potato" [ { author = "Evaldas", time = "Now", text = "Potato" } ]
+            ]
 
 
 
+-- menu : Model -> Html Msg
+-- menu model =
+--     Grid.containerFluid []
+--         [ Navbar.config NavMsg
+--             |> Navbar.withAnimation
+--             |> Navbar.collapseMedium
+--             |> Navbar.fixTop
+--             |> Navbar.brand [ href "/" ] [ text "Elm Bootstrap" ]
+--             |> Navbar.items
+--                 [ Navbar.itemLink [ href "getting-started" ] [ text "Getting started" ]
+--                 , Navbar.itemLink [ href "modules" ] [ text "Modules" ]
+--                 , Navbar.itemLink [ href "todos" ] [ text "Todos" ]
+--                 , Navbar.dropdown
+--                     { id = "navbar-dropdown-categories"
+--                     , toggle = Navbar.dropdownToggle [] [ text "Categories" ]
+--                     , items =
+--                         [ Navbar.dropdownHeader [ text "Categories" ]
+--                         , Navbar.dropdownItem [ href "/" ] [ text "Potato" ]
+--                         ]
+--                     }
+--                 ]
+--             |> Navbar.customItems
+--                 [ Navbar.formItem []
+--                     [ InputGroup.config
+--                         (InputGroup.text [ Input.placeholder "Search for" ])
+--                         |> InputGroup.small
+--                         |> InputGroup.successors
+--                             [ InputGroup.button [ Button.secondary ] [ text "GO" ] ]
+--                         |> InputGroup.view
+--                     ]
+--                 ]
+--             |> Navbar.view model.navState
+--         ]
+--
+--
+-- content : Model -> Html Msg
+-- content model =
+--     Grid.containerFluid [ Spacing.mt5 ] <|
+--         case model.route of
+--             Route.Home ->
+--                 Page.Home.view
+--
+--             Route.GettingStarted ->
+--                 Page.GettingStarted.view
+--
+--             Route.Modules ->
+--                 Page.Modules.view
+--
+--             Route.CategoriesRoute ->
+--                 [ Html.map CategoryMsg (Page.Categories.view model.categoryState) ]
+--
+--             Route.CategoryRoute _ ->
+--                 Page.Modules.view
+--
+--             Route.Todos ->
+--                 [ Html.map TodoMsg (Page.Todos.view model.todoState) ]
+--
+--             Route.NotFound ->
+--                 Page.NotFound.view
+--
 -- MAIN
 
 
