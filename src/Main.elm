@@ -3,7 +3,7 @@ module Main exposing (main)
 import Bootstrap.Navbar as Navbar
 import Browser exposing (UrlRequest)
 import Browser.Navigation as Navigation
-import Element exposing (Element, alignBottom, alignRight, centerY, column, el, fill, fillPortion, height, layout, mouseOver, none, padding, paddingXY, paragraph, px, rgb255, rgba, row, scrollbarY, spacing, spacingXY, text, width)
+import Element exposing (Element, alignBottom, alignRight, alignTop, centerY, column, el, fill, fillPortion, height, layout, mouseOver, none, padding, paddingXY, paragraph, px, rgb255, rgba, row, scrollbarY, spacing, spacingXY, text, width)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
@@ -269,12 +269,48 @@ chatPanel channel messages =
         [ header, messagePanel, footer ]
 
 
+
+-- content : Model -> Html Msg
+-- content model =
+--     layout [] <|
+--         row [ height fill, width fill ]
+--             [ channelPanel [ "potato", "elm", "lol" ] "lol"
+--             , chatPanel "potato" [ { author = "Evaldas", time = "Now", text = "Potato" } ]
+--             ]
+
+
 content : Model -> Html Msg
 content model =
-    layout [] <|
-        row [ height fill, width fill ]
-            [ channelPanel [ "potato", "elm", "lol" ] "lol"
-            , chatPanel "potato" [ { author = "Evaldas", time = "Now", text = "Potato" } ]
+    let
+        header =
+            row
+                [ width fill
+                , height <| px 50
+                , paddingXY 20 5
+                , alignTop
+                , Border.widthEach { bottom = 1, left = 0, right = 0, top = 0 }
+                , Border.color <| rgb255 200 200 200
+                , Border.shadow { offset = ( 0, 0 ), size = 1, blur = 5, color = rgb255 200 200 200 }
+                ]
+                [ text "Potat" ]
+
+        cnt : Int -> Element Msg
+        cnt skaicius =
+            row [ width fill ] [ text <| String.fromInt <| skaicius ]
+
+        rowas : Int -> Element Msg
+        rowas item =
+            item |> String.fromInt |> text
+
+        messagePanel =
+            column [ width fill, padding 10, spacingXY 0 20, scrollbarY ] <|
+                List.map rowas (List.range 0 100)
+    in
+    layout [ height fill, width fill ] <|
+        column
+            [ height fill, width fill ]
+            [ header
+            , messagePanel
             ]
 
 
