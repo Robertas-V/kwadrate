@@ -1,6 +1,5 @@
 module Main exposing (main)
 
-import Bootstrap.Navbar as Navbar
 import Browser exposing (UrlRequest)
 import Browser.Navigation as Navigation
 import Element exposing (Element, alignBottom, alignRight, alignTop, centerY, column, el, fill, fillPortion, height, layout, mouseOver, none, padding, paddingXY, paragraph, px, rgb255, rgba, row, scrollbarY, spacing, spacingXY, text, width)
@@ -30,7 +29,6 @@ type Msg
     = NoOp
     | UrlChange Url
     | ClickedLink UrlRequest
-    | NavMsg Navbar.State
     | TodoMsg Page.Todos.Msg
     | CategoryMsg Page.Categories.Msg
 
@@ -53,7 +51,6 @@ type alias Message =
 type alias Model =
     { navKey : Navigation.Key
     , route : Route
-    , navState : Navbar.State
     , todoState : Page.Todos.Model
     , categoryState : Page.Categories.Model
     }
@@ -66,9 +63,6 @@ type alias Model =
 init : Flags -> Url -> Navigation.Key -> ( Model, Cmd Msg )
 init flags url key =
     let
-        ( navState, navCmd ) =
-            Navbar.initialState NavMsg
-
         ( todoState, todoCmd ) =
             Page.Todos.init
 
@@ -76,9 +70,9 @@ init flags url key =
             Page.Categories.init
 
         ( model, urlCmd ) =
-            urlUpdate url { navKey = key, navState = navState, todoState = todoState, categoryState = categoryState, route = Route.Home }
+            urlUpdate url { navKey = key, todoState = todoState, categoryState = categoryState, route = Route.Home }
     in
-    ( model, Cmd.batch [ urlCmd, navCmd ] )
+    ( model, Cmd.batch [ urlCmd ] )
 
 
 
@@ -101,9 +95,6 @@ update msg model =
 
         UrlChange url ->
             urlUpdate url model
-
-        NavMsg state ->
-            ( { model | navState = state }, Cmd.none )
 
         TodoMsg subMsg ->
             let
@@ -141,7 +132,7 @@ decode url =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Navbar.subscriptions model.navState NavMsg
+    Sub.none
 
 
 
