@@ -2,7 +2,7 @@ module Main exposing (main)
 
 import Browser exposing (UrlRequest)
 import Browser.Navigation as Navigation
-import Element exposing (Element, alignBottom, alignRight, alignTop, centerY, column, el, fill, fillPortion, height, layout, mouseOver, none, padding, paddingXY, paragraph, px, rgb255, rgba, row, scrollbarY, spacing, spacingXY, text, width)
+import Element exposing (Element, alignBottom, alignRight, alignTop, centerY, column, el, fill, fillPortion, height, layout, mouseOver, none, padding, paddingEach, paddingXY, paragraph, px, rgb255, rgba, row, scrollbarY, spacing, spacingXY, text, width)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
@@ -172,104 +172,6 @@ navigation model =
         ]
 
 
-channelPanel : List String -> String -> Element Msg
-channelPanel channels activeChannel =
-    let
-        activeChannelsAttributes =
-            [ Background.color <| rgb255 117 179 201, Font.bold ]
-
-        channelAttributes =
-            [ paddingXY 15 5, width fill ]
-
-        channel channelName =
-            el
-                (if channelName == activeChannel then
-                    activeChannelsAttributes ++ channelAttributes
-
-                 else
-                    channelAttributes
-                )
-            <|
-                text ("#" ++ channelName)
-    in
-    column
-        [ height fill
-        , width <| fillPortion 1
-        , paddingXY 0 10
-        , Background.color <| rgb255 92 99 118
-        , Font.color <| rgb255 255 255 255
-        ]
-    <|
-        List.map channel channels
-
-
-chatPanel : String -> List Message -> Element Msg
-chatPanel channel messages =
-    let
-        header =
-            row
-                [ width fill
-                , paddingXY 20 5
-                , Border.widthEach { bottom = 1, left = 0, right = 0, top = 0 }
-                , Border.color <| rgb255 200 200 200
-                ]
-                [ el [] <| text ("#" ++ channel)
-                , Input.button
-                    [ padding 5
-                    , alignRight
-                    , Border.width 1
-                    , Border.rounded 3
-                    , Border.color <| rgb255 200 200 200
-                    ]
-                    { onPress = Nothing
-                    , label = text "Search"
-                    }
-                ]
-
-        messageEntry message =
-            column [ width fill, spacingXY 0 5 ]
-                [ row [ spacingXY 10 0 ]
-                    [ el [ Font.bold ] <| text message.author, text message.time ]
-                , paragraph [] [ text message.text ]
-                ]
-
-        messagePanel =
-            column [ padding 10, spacingXY 0 10, scrollbarY ] <| List.map messageEntry messages
-
-        footer =
-            el [ alignBottom, padding 20, width fill ] <|
-                row
-                    [ spacingXY 20 0
-                    , width fill
-                    , Border.width 2
-                    , Border.rounded 4
-                    , Border.color <| rgb255 200 200 200
-                    ]
-                    [ el
-                        [ padding 5
-                        , Border.widthEach { bottom = 2, left = 0, right = 0, top = 0 }
-                        , Border.color <| rgb255 200 200 200
-                        , mouseOver [ Background.color <| rgb255 86 182 139 ]
-                        ]
-                      <|
-                        text "+"
-                    , el [ Background.color <| rgb255 255 255 255 ] none
-                    ]
-    in
-    column [ height fill, width <| fillPortion 5 ]
-        [ header, messagePanel, footer ]
-
-
-
--- content : Model -> Html Msg
--- content model =
---     layout [] <|
---         row [ height fill, width fill ]
---             [ channelPanel [ "potato", "elm", "lol" ] "lol"
---             , chatPanel "potato" [ { author = "Evaldas", time = "Now", text = "Potato" } ]
---             ]
-
-
 content : Model -> Html Msg
 content model =
     let
@@ -283,7 +185,14 @@ content model =
                 , Border.color <| rgb255 200 200 200
                 , Border.shadow { offset = ( 0, 0 ), size = 1, blur = 5, color = rgb255 200 200 200 }
                 ]
-                [ text "Potat" ]
+                [ text "Potat"
+                , Input.search []
+                    { onChange = \stringString -> NoOp
+                    , text = "Potat"
+                    , placeholder = Nothing
+                    , label = Input.labelHidden "Search"
+                    }
+                ]
 
         cnt : Int -> Element Msg
         cnt skaicius =
@@ -294,10 +203,27 @@ content model =
             item |> String.fromInt |> text
 
         messagePanel =
-            column [ width fill, padding 10, spacingXY 0 20, scrollbarY ] <|
+            column
+                [ width fill
+                , padding 10
+                , spacingXY 0 20
+                , scrollbarY
+                ]
+            <|
                 List.map rowas (List.range 0 100)
     in
-    layout [ height fill, width fill ] <|
+    layout
+        [ height fill
+        , width fill
+        , Background.color (rgba 225 225 225 1)
+        , Font.color (rgba 0 0 0 1)
+        , Font.size 18
+        , Font.family
+            [ Font.external { url = "https://fonts.googleapis.com/css?family=Montserrat", name = "Montserrat" }
+            , Font.sansSerif
+            ]
+        ]
+    <|
         column
             [ height fill, width fill ]
             [ header
